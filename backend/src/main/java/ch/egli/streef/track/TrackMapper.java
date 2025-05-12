@@ -1,19 +1,19 @@
-package ch.egli.streef.run;
+package ch.egli.streef.track;
 
 import org.springframework.stereotype.Component;
 
-import ch.egli.streef.run_point.RunPointDto;
-import ch.egli.streef.run_point.RunPointEntity;
+import ch.egli.streef.trackpoint.TrackPointDto;
+import ch.egli.streef.trackpoint.TrackPointEntity;
 
 @Component
-public class RunMapper {
+public class TrackMapper {
     
-    public RunDto toDto(RunEntity entity) {
+    public TrackDto toDto(TrackEntity entity) {
         if (entity == null) {
             return null;
         }
         
-        RunDto dto = new RunDto();
+        TrackDto dto = new TrackDto();
         dto.setId(entity.getId());
         dto.setStartTime(entity.getStartTime());
         dto.setEndTime(entity.getEndTime());
@@ -34,14 +34,14 @@ public class RunMapper {
         return dto;
     }
     
-    public RunPointDto toPointDto(RunPointEntity entity) {
+    public TrackPointDto toPointDto(TrackPointEntity entity) {
         if (entity == null) {
             return null;
         }
         
-        RunPointDto dto = new RunPointDto();
+        TrackPointDto dto = new TrackPointDto();
         dto.setId(entity.getId());
-        dto.setRunId(entity.getRun() != null ? entity.getRun().getId() : null);
+        dto.setTrackId(entity.getTrack() != null ? entity.getTrack().getId() : null);
         dto.setLatitude(entity.getLatitude());
         dto.setLongitude(entity.getLongitude());
         dto.setHeight(entity.getHeight());
@@ -51,12 +51,12 @@ public class RunMapper {
         return dto;
     }
     
-    public RunEntity toEntity(RunDto dto) {
+    public TrackEntity toEntity(TrackDto dto) {
         if (dto == null) {
             return null;
         }
         
-        RunEntity entity = new RunEntity();
+        TrackEntity entity = new TrackEntity();
         entity.setId(dto.getId());
         entity.setStartTime(dto.getStartTime());
         entity.setEndTime(dto.getEndTime());
@@ -68,7 +68,7 @@ public class RunMapper {
         // Convert points and maintain bidirectional relationship
         if (dto.getPoints() != null) {
             dto.getPoints().forEach(pointDto -> {
-                RunPointEntity pointEntity = toPointEntity(pointDto);
+                TrackPointEntity pointEntity = toPointEntity(pointDto);
                 entity.addPoint(pointEntity); // This also sets the relationship
             });
         }
@@ -76,12 +76,12 @@ public class RunMapper {
         return entity;
     }
     
-    public RunPointEntity toPointEntity(RunPointDto dto) {
+    public TrackPointEntity toPointEntity(TrackPointDto dto) {
         if (dto == null) {
             return null;
         }
         
-        RunPointEntity entity = new RunPointEntity();
+        TrackPointEntity entity = new TrackPointEntity();
         entity.setId(dto.getId());
         entity.setLatitude(dto.getLatitude());
         entity.setLongitude(dto.getLongitude());

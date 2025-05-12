@@ -1,10 +1,10 @@
-package ch.egli.streef.run;
+package ch.egli.streef.track;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.egli.streef.run_point.RunPointEntity;
+import ch.egli.streef.trackpoint.TrackPointEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -18,10 +18,10 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "T_RUN")
+@Table(name = "T_TRACK")
 @Getter
 @Setter
-public class RunEntity {
+public class TrackEntity {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,13 +31,13 @@ public class RunEntity {
     private LocalDateTime endTime;
     
     @OneToMany(
-        mappedBy = "run", 
+        mappedBy = "track", 
         cascade = CascadeType.ALL, 
         orphanRemoval = true, 
         fetch = FetchType.LAZY
     )
     @OrderBy("timestamp ASC")
-    private List<RunPointEntity> points = new ArrayList<>();
+    private List<TrackPointEntity> points = new ArrayList<>();
     
     private String notes;
     private double distanceKm;
@@ -45,13 +45,13 @@ public class RunEntity {
     private LocalDateTime createdAt;
     
     // Helper methods to manage bidirectional relationship
-    public void addPoint(RunPointEntity point) {
+    public void addPoint(TrackPointEntity point) {
         points.add(point);
-        point.setRun(this);
+        point.setTrack(this);
     }
     
-    public void removePoint(RunPointEntity point) {
+    public void removePoint(TrackPointEntity point) {
         points.remove(point);
-        point.setRun(null);
+        point.setTrack(null);
     }
 }

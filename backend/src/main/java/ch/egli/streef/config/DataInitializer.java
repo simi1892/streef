@@ -9,9 +9,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ch.egli.streef.run.RunEntity;
-import ch.egli.streef.run.RunRepository;
-import ch.egli.streef.run_point.RunPointEntity;
+import ch.egli.streef.track.TrackEntity;
+import ch.egli.streef.track.TrackRepository;
+import ch.egli.streef.trackpoint.TrackPointEntity;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,22 +19,22 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class DataInitializer {
-    private final RunRepository runRepository;
+    private final TrackRepository trackRepository;
 
     @Bean
     public CommandLineRunner initData() {
         return args -> {
-            log.info("Initializing sample run data");
+            log.info("Initializing sample track data");
             
             // Check if we already have data
-            if (runRepository.count() > 0) {
+            if (trackRepository.count() > 0) {
                 log.info("Data already exists, skipping initialization");
                 return;
             }
             
-            // Create a new run from Schulwiesstrasse 6 to Müliweiher in Steinmaur
+            // Create a new track from Schulwiesstrasse 6 to Müliweiher in Steinmaur
             LocalDateTime startTime = LocalDateTime.now().minusDays(2).withHour(18).withMinute(30).withSecond(0);
-            LocalDateTime endTime = startTime.plusMinutes(25); // 25 minute run
+            LocalDateTime endTime = startTime.plusMinutes(25); // 25 minute track
             
             // Calculate distance for this route (approximate)
             double distanceKm = 0.9; // ~900 meters from Schulwiesstrasse 6 to Müliweiher
@@ -45,16 +45,16 @@ public class DataInitializer {
             // Calculate pace in minutes per kilometer
             double avgPaceMinPerKm = (durationSeconds / 60.0) / distanceKm;
             
-            RunEntity runEntity = new RunEntity();
+            TrackEntity trackEntity = new TrackEntity();
             // Let the ID be generated automatically
-            runEntity.setStartTime(startTime);
-            runEntity.setEndTime(endTime);
-            runEntity.setNotes("Evening run from home to Müliweiher");
-            runEntity.setDistanceKm(distanceKm);
-            runEntity.setAvgPaceMinPerKm(avgPaceMinPerKm);
-            runEntity.setCreatedAt(startTime);
+            trackEntity.setStartTime(startTime);
+            trackEntity.setEndTime(endTime);
+            trackEntity.setNotes("Evening track from home to Müliweiher");
+            trackEntity.setDistanceKm(distanceKm);
+            trackEntity.setAvgPaceMinPerKm(avgPaceMinPerKm);
+            trackEntity.setCreatedAt(startTime);
             
-            // Create approximately 10 run points for the route
+            // Create approximately 10 track points for the route
             // GPS coordinates for Schulwiesstrasse 6, Steinmaur to Müliweiher
             List<double[]> coordinatesList = new ArrayList<>();
             
@@ -73,12 +73,12 @@ public class DataInitializer {
             coordinatesList.add(new double[]{47.5122, 8.4519}); // Arriving at Müliweiher
             
             // Calculate time interval between points
-            long runDurationSeconds = ChronoUnit.SECONDS.between(startTime, endTime);
-            long intervalSeconds = runDurationSeconds / (coordinatesList.size() - 1);
+            long trackDurationSeconds = ChronoUnit.SECONDS.between(startTime, endTime);
+            long intervalSeconds = trackDurationSeconds / (coordinatesList.size() - 1);
             
             // Create and add all points using the proper bidirectional relationship
             for (int i = 0; i < coordinatesList.size(); i++) {
-                RunPointEntity point = new RunPointEntity();
+                TrackPointEntity point = new TrackPointEntity();
                 // Let the ID be generated automatically
                 point.setTimestamp(startTime.plusSeconds(i * intervalSeconds)); // Use timestamp for point's time
                 point.setCreatedAt(LocalDateTime.now()); // Use current time for record creation
@@ -88,15 +88,15 @@ public class DataInitializer {
                 point.setHeight(450 + Math.random() * 10); // Random elevation between 450-460m
                 
                 // Use the helper method to maintain bidirectional relationship
-                runEntity.addPoint(point);
+                trackEntity.addPoint(point);
                 
-                log.debug("Created run point: {}", point);
+                log.debug("Created track point: {}", point);
             }
             
-            // Save the run - cascade will save all points too
-            RunEntity savedRun = runRepository.save(runEntity);
+            // Save the track - cascade will save all points too
+            TrackEntity savedTrack = trackRepository.save(trackEntity);
             
-            log.info("Created run with ID: {} and {} points", savedRun.getId(), savedRun.getPoints().size());
+            log.info("Created track with ID: {} and {} points", savedTrack.getId(), savedTrack.getPoints().size());
             log.info("Data initialization complete");
         };
     }

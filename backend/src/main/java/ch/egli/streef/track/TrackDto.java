@@ -1,18 +1,18 @@
-package ch.egli.streef.run;
+package ch.egli.streef.track;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.egli.streef.run_point.RunPointDto;
+import ch.egli.streef.trackpoint.TrackPointDto;
 import lombok.Data;
 
 @Data
-public class RunDto {
+public class TrackDto {
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private List<RunPointDto> points = new ArrayList<>();
+    private List<TrackPointDto> points = new ArrayList<>();
     private String notes;
     private double distanceKm;
     private double avgPaceMinPerKm;

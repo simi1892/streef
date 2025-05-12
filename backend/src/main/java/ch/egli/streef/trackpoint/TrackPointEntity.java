@@ -1,8 +1,8 @@
-package ch.egli.streef.run_point;
+package ch.egli.streef.trackpoint;
 
 import java.time.LocalDateTime;
 
-import ch.egli.streef.run.RunEntity;
+import ch.egli.streef.track.TrackEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -15,17 +15,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "T_RUN_POINT")
+@Table(name = "T_TRACK_POINT")
 @Getter
 @Setter
-public class RunPointEntity {
+public class TrackPointEntity {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "run_id", nullable = false)
-    private RunEntity run;
+    @JoinColumn(name = "track_id", nullable = false)
+    private TrackEntity track;
     
     private double latitude;
     private double longitude;
@@ -38,9 +39,9 @@ public class RunPointEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof RunPointEntity)) return false;
+        if (!(o instanceof TrackPointEntity)) return false;
         
-        RunPointEntity that = (RunPointEntity) o;
+        TrackPointEntity that = (TrackPointEntity) o;
         
         if (id != null && that.id != null) {
             return id.equals(that.id);

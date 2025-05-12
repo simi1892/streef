@@ -1,4 +1,4 @@
-package ch.egli.streef.run;
+package ch.egli.streef.track;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,56 +16,56 @@ import lombok.extern.log4j.Log4j2;
 
 
 @RestController
-@RequestMapping("/runs")
+@RequestMapping("/tracks")
 @Log4j2
-public class RunController {
+public class TrackController {
 
-    private final RunService runService;
+    private final TrackService trackService;
     
     @Autowired
-    public RunController(RunService runService) {
-        this.runService = runService;
+    public TrackController(TrackService trackService) {
+        this.trackService = trackService;
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<RunDto> getRunById(@PathVariable Long id) {
+    public ResponseEntity<TrackDto> getTrackById(@PathVariable Long id) {
         try {
-            RunDto run = runService.getRunById(id);
-            log.info("Retrieved run with ID: {} containing {} points", id, 
-                    run.getPoints() != null ? run.getPoints().size() : 0);
-            return ResponseEntity.ok(run);
+            TrackDto track = trackService.getTrackById(id);
+            log.info("Retrieved track with ID: {} containing {} points", id, 
+                    track.getPoints() != null ? track.getPoints().size() : 0);
+            return ResponseEntity.ok(track);
         } catch (EntityNotFoundException e) {
-            log.warn("Run with ID {} not found", id);
+            log.warn("Track with ID {} not found", id);
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            log.error("Error retrieving run with ID: {}", id, e);
+            log.error("Error retrieving track with ID: {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
     
     @PostMapping
-    public ResponseEntity<RunDto> createRun(@RequestBody RunDto runDto) {
+    public ResponseEntity<TrackDto> createTrack(@RequestBody TrackDto trackDto) {
         try {
-            RunDto createdRun = runService.createRun(runDto);
-            log.info("Created run with ID: {}", createdRun.getId());
-            return ResponseEntity.status(HttpStatus.CREATED).body(createdRun);
+            TrackDto createdTrack = trackService.createTrack(trackDto);
+            log.info("Created track with ID: {}", createdTrack.getId());
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdTrack);
         } catch (Exception e) {
-            log.error("Error creating run", e);
+            log.error("Error creating track", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRun(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTrack(@PathVariable Long id) {
         try {
-            runService.deleteRun(id);
-            log.info("Deleted run with ID: {}", id);
+            trackService.deleteTrack(id);
+            log.info("Deleted track with ID: {}", id);
             return ResponseEntity.noContent().build();
         } catch (EntityNotFoundException e) {
-            log.warn("Cannot delete - run with ID {} not found", id);
+            log.warn("Cannot delete - track with ID {} not found", id);
             return ResponseEntity.notFound().build();
         } catch (Exception e) {
-            log.error("Error deleting run with ID: {}", id, e);
+            log.error("Error deleting track with ID: {}", id, e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }

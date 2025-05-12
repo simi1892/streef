@@ -1,13 +1,13 @@
-package ch.egli.streef.run_point;
+package ch.egli.streef.trackpoint;
 
 import java.time.LocalDateTime;
 
 import lombok.Data;
 
 @Data
-public class RunPointDto {
+public class TrackPointDto {
     private Long id;
-    private Long runId;
+    private Long trackId;
     private double latitude;
     private double longitude;
     private double height;
