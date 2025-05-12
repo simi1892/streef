@@ -16,7 +16,7 @@ import lombok.extern.log4j.Log4j2;
 
 
 @RestController
-@RequestMapping("/tracks")
+@RequestMapping("/v1/tracks")
 @Log4j2
 public class TrackController {
 
