@@ -3,6 +3,7 @@ package ch.egli.streef.trackpoint;
 import java.time.LocalDateTime;
 
 import ch.egli.streef.track.TrackEntity;
+import jakarta.annotation.Nullable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +31,7 @@ public class TrackPointEntity {
     
     private double latitude;
     private double longitude;
+    @Nullable
     private double height;
     
     private LocalDateTime timestamp; // When this point was recorded
