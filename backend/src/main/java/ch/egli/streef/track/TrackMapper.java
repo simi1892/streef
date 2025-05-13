@@ -3,19 +3,11 @@ package ch.egli.streef.track;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import ch.egli.streef.height.HeightService;
 import ch.egli.streef.trackpoint.TrackPointDto;
 import ch.egli.streef.trackpoint.TrackPointEntity;
 
 @Component
 public class TrackMapper {
-    private final HeightService heightService;
-
-    @Autowired
-    public TrackMapper(HeightService heightService) {
-        this.heightService = heightService;
-    }
-
     public TrackDto toDto(TrackEntity entity) {
         if (entity == null) {
             return null;
@@ -92,11 +84,7 @@ public class TrackMapper {
         entity.setId(dto.getId());
         entity.setLatitude(dto.getLatitude());
         entity.setLongitude(dto.getLongitude());
-        if (dto.getHeight() == null) {
-            entity.setHeight(heightService.getHeightForCoordinate(dto.getLatitude(), dto.getLongitude()));
-        } else {
-            entity.setHeight(dto.getHeight());
-        }
+        entity.setHeight(dto.getHeight());
         entity.setHeight(dto.getHeight());
         entity.setTimestamp(dto.getTimestamp());
         entity.setCreatedAt(dto.getCreatedAt());

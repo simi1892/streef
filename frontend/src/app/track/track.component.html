@@ -1,1 +1,3 @@
-<p>track works!</p>
+@if (track$ | async; as track) {
+    <p>{{ track.notes }}</p>
+}

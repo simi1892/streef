@@ -5,7 +5,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 export const routes: Routes = [
     { path: 'feed', component: FeedComponent },
-    { path: 'track', component: TrackComponent },
+    { path: 'track/:id', component: TrackComponent },
     { path: '', redirectTo: 'feed', pathMatch: 'full' },
     { path: '**', component: PageNotFoundComponent }
 ];
