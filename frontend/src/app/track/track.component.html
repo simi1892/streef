@@ -1,5 +1,12 @@
-@if (track$ | async; as track) {
-    <p>{{ track.notes }}</p>
-} @else {
-    <p>Nichts gefunden mit angegebener ID</p>
-}
+   <div class="track-container">
+      @if (track$ | async; as track) {
+        <div class="track-info">
+          <h2>{{ track.notes }}</h2>
+          <p>Distance: {{ track.distanceKm.toFixed(2) }} km</p>
+          <p>Average Pace: {{ formatPace(track.avgPaceMinPerKm) }} min/km</p>
+        </div>
+        <div id="map" class="track-map"></div>
+      } @else {
+        <p>Nichts gefunden mit angegebener ID</p>
+      }
+    </div>
