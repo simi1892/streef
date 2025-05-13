@@ -1,3 +1,5 @@
 @if (track$ | async; as track) {
     <p>{{ track.notes }}</p>
+} @else {
+    <p>Nichts gefunden mit angegebener ID</p>
 }
