@@ -1,0 +1,42 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    height: 100vh;
+    color: #444;
+    animation: fadeIn 1s ease-in;
+
+    .icon {
+        font-size: 96px;
+        margin-bottom: 16px;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 8px;
+    }
+
+    p {
+        font-size: 1.2rem;
+        margin-bottom: 24px;
+        max-width: 400px;
+    }
+
+    button {
+        font-weight: 600;
+        text-transform: none;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
