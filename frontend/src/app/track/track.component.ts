@@ -79,6 +79,7 @@ export class TrackComponent implements OnInit {
       opacity: 0.7
     }).addTo(this.map);
 
+    // TODO: replace marker at start- and endpoint with icon: https://leafletjs.com/examples/custom-icons/
     const startPoint = routePoints[0];
     L.marker(startPoint).addTo(this.map)
       .bindPopup('Start')
